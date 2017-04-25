@@ -45,8 +45,8 @@ master peers = do
     send pid (Ping sendport)
     return recvport
 
-  oneport <- mergePortsBiased ports     -- <1>
-  waitForPongs oneport ps               -- <2>
+  oneport <- mergePortsBiased ports
+  waitForPongs oneport ps               
 
   say "All pongs successfully received"
   terminate

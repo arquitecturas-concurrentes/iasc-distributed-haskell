@@ -43,11 +43,11 @@ master peers = do
 
   ports <- forM ps $ \pid -> do
     say $ printf "pinging %s" (show pid)
-    (sendport,recvport) <- newChan      -- <1>
-    send pid (Ping sendport)            -- <2>
+    (sendport,recvport) <- newChan
+    send pid (Ping sendport)
     return recvport
 
-  forM_ ports $ \port -> do             -- <3>
+  forM_ ports $ \port -> do             
      _ <- receiveChan port
      return ()
 

@@ -32,10 +32,10 @@ remotable ['pingServer]
 -- >>
 
 -- <<master
-master :: [NodeId] -> Process ()                     -- <1>
+master :: [NodeId] -> Process ()
 master peers = do
 
-  ps <- forM peers $ \nid -> do                      -- <2>
+  ps <- forM peers $ \nid -> do                      
           say $ printf "spawning on %s" (show nid)
           spawn nid $(mkStaticClosure 'pingServer)
 

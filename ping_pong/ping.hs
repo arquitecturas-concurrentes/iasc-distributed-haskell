@@ -13,18 +13,18 @@ import GHC.Generics (Generic)
 -- <<Message
 data Message = Ping ProcessId
              | Pong ProcessId
-  deriving (Typeable, Generic)          -- <1>
+  deriving (Typeable, Generic)
 
-instance Binary Message                 -- <2>
+instance Binary Message
 -- >>
 
 -- <<pingServer
 pingServer :: Process ()
 pingServer = do
-  Ping from <- expect                              -- <1>
-  say $ printf "ping received from %s" (show from) -- <2>
-  mypid <- getSelfPid                              -- <3>
-  send from (Pong mypid)                           -- <4>
+  Ping from <- expect
+  say $ printf "ping received from %s" (show from)
+  mypid <- getSelfPid
+  send from (Pong mypid)
 -- >>
 
 -- <<remotable
@@ -34,19 +34,19 @@ remotable ['pingServer]
 -- <<master
 master :: Process ()
 master = do
-  node <- getSelfNode                               -- <1>
+  node <- getSelfNode
 
   say $ printf "spawning on %s" (show node)
-  pid <- spawn node $(mkStaticClosure 'pingServer)  -- <2>
+  pid <- spawn node $(mkStaticClosure 'pingServer)
 
-  mypid <- getSelfPid                               -- <3>
+  mypid <- getSelfPid
   say $ printf "sending ping to %s" (show pid)
-  send pid (Ping mypid)                             -- <4>
+  send pid (Ping mypid)
 
-  Pong _ <- expect                                  -- <5>
+  Pong _ <- expect
   say "pong."
 
-  terminate                                         -- <6>
+  terminate                                         
 -- >>
 
 -- <<main

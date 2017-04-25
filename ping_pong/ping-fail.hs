@@ -43,7 +43,7 @@ master = do
 
 -- <<withMonitor
   withMonitor pid $ do
-    send pid (Pong mypid)               -- <1>
+    send pid (Pong mypid)
     receiveWait
       [ match $ \(Pong _) -> do
          say "pong."
